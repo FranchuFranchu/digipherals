@@ -2,7 +2,7 @@ digipherals.api.screen = {}
 
 digipherals.api.screen.clear_screen = function(pos)
 
-    digipherals.helpers.screen.check_meta(pos)
+    digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
@@ -16,7 +16,7 @@ digipherals.api.screen.clear_screen = function(pos)
 end
 
 digipherals.api.screen.set_resolution = function(pos,w,h)
-    digipherals.helpers.screen.check_meta(pos)
+    digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
@@ -29,9 +29,20 @@ digipherals.api.screen.set_resolution = function(pos,w,h)
     return true
 end
 
+
+digipherals.api.screen.get_resolution = function(pos,w,h)
+    digipherals.helpers.check_meta(pos)
+    
+    local meta = minetest.get_meta(pos)
+    local tmp = minetest.deserialize(meta:get_string("digipherals"))
+
+    return tmp.screen.resolution
+end
+
+
 digipherals.api.screen.set_pixel = function(pos,x, y, colorindex)
 
-    digipherals.helpers.screen.check_meta(pos)
+    digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
@@ -46,7 +57,7 @@ end
 
 digipherals.api.screen.get_pixel = function(pos,x, y)
 
-    digipherals.helpers.screen.check_meta(pos)
+    digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))

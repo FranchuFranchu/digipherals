@@ -1,31 +1,8 @@
 digipherals.helpers.screen = {}
 
-digipherals.helpers.screen.check_meta = function (pos, objref) 
-    local meta = minetest.get_meta(pos)
-    local tmp = minetest.deserialize(meta:get_string("digipherals"))
-
-    if tmp == nil then
-        local nodename = minetest.get_node(pos).name
-        print(nodename)
-
-        tmp = minetest.registered_nodes[nodename]["digipherals"]
-
-        if tmp.screen ~= nil then
-            tmp.screen.pixels = {}
-        end
-
-
-    end
-
-    if tmp.global == nil then
-        tmp.global = {channel_i="peripheral1"}
-    end
-    meta:set_string("digipherals", minetest.serialize(tmp))
-end 
-
 
 digipherals.helpers.screen.clear_screen = function(pos, objref)
-    digipherals.helpers.screen.check_meta(pos, objref)
+    digipherals.helpers.check_meta(pos, objref)
 
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
@@ -35,7 +12,7 @@ digipherals.helpers.screen.clear_screen = function(pos, objref)
 end
 
 digipherals.helpers.screen.display_update = function(pos, objref)
-    digipherals.helpers.screen.check_meta(pos, objref)
+    digipherals.helpers.check_meta(pos, objref)
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
 

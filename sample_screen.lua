@@ -93,15 +93,6 @@ local function autoconnect_edges(pos, placer, itemstack, pointed_thing)
             pointing = vector.cross(vector.new(0,1,0),pointing)
         end
 
-        print('--')
-        print(param2)
-        print(dump(normal))
-        print(dump(above))
-        print(dump(below))
-        print(dump(right))
-        print(dump(left))
-        print(dump(pointing))
-
         if vector.equals(right, pointing) then
             return {x=1, y=0, z=0}
         elseif vector.equals(left, pointing) then
@@ -129,7 +120,6 @@ local function autoconnect_edges(pos, placer, itemstack, pointed_thing)
         local delta = 1
         local offset = getoffset_param2(i)
         local offsetpos = vector.add(pos, offset)
-        print(minetest.get_node(offsetpos).name)
         if minetest.get_node(offsetpos).name:match("^digipherals:sample_screen") ~= nil then
             local delta = get_direction_vector(pos, offsetpos, param2)
             local index = connections_vals[minetest.serialize(delta)]
@@ -142,7 +132,6 @@ local function autoconnect_edges(pos, placer, itemstack, pointed_thing)
 
         end
     end
-    print(dump(connections))
 
     local newname = minetest.get_node(pos).name.."_"..connections[1] .. connections[2] .. connections[3] .. connections[4]
     minetest.set_node(pos, superpose_table(minetest.get_node(pos), {name=newname}))
@@ -168,7 +157,10 @@ local base_table = {
     },
 
     digipherals = {
-        api = digipherals.api.screen,
+        api = superpose_table(
+            digipherals.api.screen,
+            digipherals.api.global
+        ),
         screen = {
             resolution = {x=10,y=10},
             pallete = "digipherals_pallete_vga16",

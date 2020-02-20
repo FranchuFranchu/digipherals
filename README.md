@@ -1,8 +1,10 @@
 Digipherals
 ==========================================================
 
-Attempts to provide a standarized interface for digiline peripherals
+Minetest mod: Attempts to provide a standarized interface for digiline peripherals
 ![alt text goes here](https://imgur.com/M18iUag.gif)
+
+see [doc/basic.rst](doc/basic.rst) for more info
 
 Luacontroller code:
 

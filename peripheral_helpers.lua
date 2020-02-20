@@ -1,8 +1,39 @@
+
+digipherals.helpers.check_meta = function (pos, objref) 
+    local meta = minetest.get_meta(pos)
+    local tmp = minetest.deserialize(meta:get_string("digipherals"))
+
+    if tmp == nil then
+        local nodename = minetest.get_node(pos).name
+        
+        tmp = minetest.registered_nodes[nodename]["digipherals"]
+
+        if tmp.screen ~= nil then
+            tmp.screen.pixels = {}
+        end
+
+
+    end
+
+    if tmp.global == nil then
+        tmp.global = {channel_i="peripheral1"}
+    end
+    meta:set_string("digipherals", minetest.serialize(tmp))
+end 
+
 digipherals.helpers.formspec_construct = function(pos)
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
-    meta:set_string("channel",tmp.global.channel_i)
+    meta:set_string("channel", tmp.global.channel_i)
     meta:set_string("formspec", "field[channel;Channel;${channel}]")
+end
+
+digipherals.helpers.set_channel = function (pos, channel)
+    digipherals.helpers.check_meta(pos)
+    local tmp = minetest.deserialize(minetest.get_meta(pos):get_string("digipherals"))
+    tmp.global.channel_i = channel
+    minetest.get_meta(pos):set_string("digipherals",minetest.serialize(tmp))
+    minetest.get_meta(pos):set_string("channel", tmp.global.channel_i)
 end
 
 digipherals.helpers.on_receive_fields = function(pos, _, fields, sender)
@@ -12,23 +43,25 @@ digipherals.helpers.on_receive_fields = function(pos, _, fields, sender)
         return
     end
     if (fields.channel) then
-        local tmp = minetest.deserialize(minetest.get_meta(pos):get_string("digipherals"))
-        tmp.global.channel_i = fields.channel
-        minetest.get_meta(pos):set_string("digipherals",minetest.serialize(tmp))
+        digipherals.helpers.set_channel(pos, fields.channel)
     end
 end
 
 digipherals.helpers.on_digiline_receive = function(pos, _,channel, msg)
-    local function unpack (t, i)
-     i = i or 1
-      if t[i] ~= nil then
-        return t[i], unpack(t, i + 1)
-      end
-    end
+    
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
 
     if channel ~= tmp.global.channel_i then return end
+    digipherals.helpers.execute_msg(pos, msg)
+
+end
+
+digipherals.helpers.execute_msg = function(pos, msg)
+
+    local meta = minetest.get_meta(pos)
+    local tmp = minetest.deserialize(meta:get_string("digipherals"))
+    local channel = tmp.global.channel_i
 
     if type(msg) ~= "table" then digilines.receptor_send(pos, digilines.rules.default, channel .. "_o", {"ERR", 0, "Message must be table"}) return end
 
@@ -38,10 +71,10 @@ digipherals.helpers.on_digiline_receive = function(pos, _,channel, msg)
     if func == nil then digilines.receptor_send(pos, digilines.rules.default, channel .. "_o", {"ERR", 1, "Unknown function"}) return end
 
     table.remove(msg, 1)
-    local ret = func(pos, unpack(msg))
+    local ret = func(pos, table.unpack(msg))
 
     if ret ~= true then
-        digilines.receptor_send(pos, digilines.rules.default, channel .. "_o", {"RET", unpack(ret)})
+        digilines.receptor_send(pos, digilines.rules.default, channel .. "_o", {"RET", table.unpack(ret)})
     end
 
 end
