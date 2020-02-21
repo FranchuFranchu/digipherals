@@ -11,5 +11,4 @@ digipherals.api.global.locate = function(pos)
     return {pos}
 end
 
-      
 

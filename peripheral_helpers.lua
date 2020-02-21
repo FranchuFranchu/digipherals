@@ -79,3 +79,16 @@ digipherals.helpers.execute_msg = function(pos, msg)
 
 end
 
+-- add the following line to the enviroment on mesecon_luacontroller/init.lua if you want it
+-- digipherals_wrapper = digipherals.helpers.get_wrapper(get_digiline_send(pos, itbl, send_warning)),
+digipherals.helpers.get_wrapper = function(digiline_send) 
+    return function(channel) 
+        return setmetatable({channel=channel,digiline_send=digiline_send},{__index=digipherals.helpers.wrapper_func})
+    end
+end
+
+digipherals.helpers.wrapper_func = function(mytable, key)
+    return function(...)
+        mytable.digiline_send(mytable.channel,{key, ...})
+    end
+end
