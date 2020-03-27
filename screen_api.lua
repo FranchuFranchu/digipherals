@@ -16,7 +16,6 @@ digipherals.api.screen.clear_screen = function(pos)
 end
 
 digipherals.api.screen.set_resolution = function(pos,w,h)
-    digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
@@ -36,7 +35,7 @@ digipherals.api.screen.get_resolution = function(pos,w,h)
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
 
-    return tmp.screen.resolution
+    return {tmp.screen.resolution.x, tmp.screen.resolution.y}
 end
 
 

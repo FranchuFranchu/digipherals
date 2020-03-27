@@ -1,0 +1,1 @@
+You might have noticed that when you place two screens together they attach. You can treat two attached screens as one by placing a "Graphics Card" next to them. Everything that works for a screen should work for the graphics card too.

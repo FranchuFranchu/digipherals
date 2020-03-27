@@ -22,8 +22,12 @@ digipherals.helpers = {}
 digipherals.api = {}
 
 dofile(modpath .. "peripheral_helpers.lua")
-dofile(modpath .. "screen_helpers.lua")
 dofile(modpath .. "peripheral_api.lua")
+dofile(modpath .. "graphics_card_helpers.lua")
+dofile(modpath .. "graphics_card_api.lua")
+dofile(modpath .. "graphics_card.lua")
+dofile(modpath .. "screen_helpers.lua")
 dofile(modpath .. "screen_api.lua")
 dofile(modpath .. "sample_screen.lua")
+
 

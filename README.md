@@ -28,3 +28,7 @@ Luacontroller code:
     end
 
     interrupt(0.1) -- repeat!
+
+Licensing
+=============
+Graphics card texture is a modification of a texture from https://github.com/minetest-mods/mesecons, it's CC-BY-SA 3.0 that's why i'm attributing them

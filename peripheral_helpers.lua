@@ -1,17 +1,40 @@
 
+
+digipherals.helpers.superpose_table =  function (base, exceptions)
+  local result = table.copy(base)
+  for key, value in pairs(exceptions) do
+        if type(value) == 'table' then
+      result[key] = digipherals.helpers.superpose_table(result[key] or {}, value)
+    else
+      result[key] = value
+    end
+  end
+  return result
+end
+
+
 digipherals.helpers.check_meta = function (pos, objref) 
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
 
+    local nodename = minetest.get_node(pos).name
+    local tmp_ = minetest.registered_nodes[nodename]["digipherals"]
+
+    if tmp_ == nil then
+        return
+    end
     if tmp == nil then
-        local nodename = minetest.get_node(pos).name
-        
-        tmp = minetest.registered_nodes[nodename]["digipherals"]
-
-        if tmp.screen ~= nil then
+        tmp = {}
+    end
+    if tmp_.screen ~= nil then
+        if tmp.screen == nil then
+            tmp.screen = {}
             tmp.screen.pixels = {}
+            tmp.screen.resolution = tmp_.screen.resolution
         end
-
+        if tmp.screen.pallete == nil then
+            tmp.screen.pallete = tmp_.screen.pallete
+        end
 
     end
 
@@ -22,6 +45,8 @@ digipherals.helpers.check_meta = function (pos, objref)
 end 
 
 digipherals.helpers.formspec_construct = function(pos)
+    digipherals.helpers.check_meta(pos)
+
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
     meta:set_string("channel", tmp.global.channel_i)
