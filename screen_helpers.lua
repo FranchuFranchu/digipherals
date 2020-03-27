@@ -27,6 +27,24 @@ digipherals.helpers.screen.clear_screen = function(pos, objref)
     meta:set_string("digipherals", minetest.serialize(tmp))
 end
 
+digipherals.helpers.screen.get_relative_vectors = function(pos) 
+
+    local param2 = minetest.get_node(pos).param2
+    local front_vector = vector.subtract(vector.new(),minetest.facedir_to_dir(param2))
+    local left_vector = vector.new(-1, 0, 0)
+    local up_vector = vector.new(0, 1, 0)
+    local relative_up = vector.cross(left_vector, front_vector)
+    local relative_left = vector.cross(up_vector, front_vector)
+    if vector.equals(relative_left, vector.new()) then
+        relative_left = vector.new(1, 0, 0)
+    end
+    if vector.equals(relative_up, vector.new()) then
+        relative_up = vector.new(0, 1, 0)
+    end
+
+    return relative_left, relative_up
+end
+
 digipherals.helpers.screen.display_update = function(pos, objref)
     digipherals.helpers.check_meta(pos, objref)
     local meta = minetest.get_meta(pos)

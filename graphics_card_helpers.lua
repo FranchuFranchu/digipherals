@@ -60,20 +60,7 @@ digipherals.helpers.graphics_card.get_relative_vectors = function(pos)
     if attached_screen == nil then
         return
     end
-    local param2 = minetest.get_node(attached_screen).param2
-    local front_vector = vector.subtract(vector.new(),minetest.facedir_to_dir(param2))
-    local left_vector = vector.new(-1, 0, 0)
-    local up_vector = vector.new(0, 1, 0)
-    local relative_up = vector.cross(left_vector, front_vector)
-    local relative_left = vector.cross(up_vector, front_vector)
-    if vector.equals(relative_left, vector.new()) then
-        relative_left = vector.new(1, 0, 0)
-    end
-    if vector.equals(relative_up, vector.new()) then
-        relative_up = vector.new(0, 1, 0)
-    end
-
-    return relative_left, relative_up
+    return digipherals.helpers.screen.get_relative_vectors(attached_screen)
 end
 
 digipherals.helpers.graphics_card.get_top_left_screen = function(pos) 
