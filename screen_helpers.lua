@@ -1,5 +1,10 @@
 digipherals.helpers.screen = {}
 
+digipherals.helpers.screen.pointer_action = function(pos, x, y, extra_data)
+    digipherals.helpers.send_interrupt(pos, {x, y, extra_data})
+    
+
+end
 
 digipherals.helpers.screen.is_screen = function(pos)     
 

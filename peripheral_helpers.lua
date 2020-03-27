@@ -1,5 +1,12 @@
 
+digipherals.helpers.send_interrupt = function (pos, data)
+      
+    local meta = minetest.get_meta(pos)
+    local tmp = minetest.deserialize(meta:get_string("digipherals"))
+    local channel = tmp.global.channel_i
 
+    digilines.receptor_send(pos, digilines.rules.default, channel .. "_o", {"INT", table.unpack(data)})
+end
 digipherals.helpers.superpose_table =  function (base, exceptions)
   local result = table.copy(base)
   for key, value in pairs(exceptions) do

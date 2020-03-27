@@ -17,6 +17,10 @@ end
 
 digipherals.api.screen.set_resolution = function(pos,w,h)
     
+    if not (w > 0 and h > 0) then
+        return {"ERR", "Both width and height must be positive ints"}
+    end
+    
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
 

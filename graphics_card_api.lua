@@ -8,6 +8,9 @@ digipherals.api.graphics_card.clear_screen = function(pos)
 end
 
 digipherals.api.graphics_card.set_resolution = function(pos,w,h)
+    if not (w > 0 and h > 0) then
+        return {"ERR", "Both width and height must be positive ints"}
+    end
 
     local sw, sh = digipherals.helpers.graphics_card.get_total_size(pos)
     for idx, pos2 in ipairs(digipherals.helpers.graphics_card.get_all_screens(pos)) do

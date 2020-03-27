@@ -11,8 +11,7 @@ digipherals.helpers.pointer.on_use = function(itemstack, user, pointed_thing)
     pos1.y = pos1.y + user:get_properties().eye_height
     local pos2 = vector.add(pos1, vector.apply(look_dir, function(i) return i * digipherals.MAX_POINTER_RANGE end))
     local ray = minetest.raycast(pos1, pos2, false)
-
-    print(dump(itemstack))       
+ 
     local pointed_thing = ray:next()
 
     if pointed_thing == nil then
@@ -45,7 +44,7 @@ digipherals.helpers.pointer.on_use = function(itemstack, user, pointed_thing)
     local res = digipherals.api.screen.get_resolution(pointed_thing.under)
     xc = xc * res[1]
     yc = yc * res[2]
-    digipherals.api.screen.set_pixel(pointed_thing.under, xc, yc, 15)
+    digipherals.helpers.screen.pointer_action(pointed_thing.under, xc, yc, {})
 
 
 end

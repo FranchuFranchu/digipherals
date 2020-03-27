@@ -1,5 +1,6 @@
 minetest.register_tool("digipherals:pointer", {
     description = "Pointer",
-    texture = "mytexture1.png",
+    inventory_image = "digipherals_pointer.png",
+
     on_use = digipherals.helpers.pointer.on_use,
 })
