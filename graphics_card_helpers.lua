@@ -165,24 +165,19 @@ digipherals.helpers.graphics_card.get_all_screens = function(pos)
     local pos_table = {}
 
     local hpos = vector.add(vector.new(topleft), relative_up)
-    print(minetest.get_node(topleft).name)
     for x in range(0,sw-1) do
         local vpos = vector.new(hpos)
         for y in range(0,sh-1) do
             vpos = vector.add(vpos, relative_down)
-            print(minetest.serialize(vpos))
-            print(minetest.get_node(vpos).name)
             if not digipherals.helpers.graphics_card.is_screen(vpos) then
                 break
             end
             pos_table[#pos_table+1] = vector.new(vpos)
-            print(#pos_table)
         end
         hpos = vector.add(hpos, relative_right)
 
     end
 
-    print(minetest.serialize(pos_table))
     return pos_table
 
 end

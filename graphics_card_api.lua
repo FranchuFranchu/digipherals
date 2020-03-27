@@ -26,7 +26,6 @@ digipherals.api.graphics_card.get_resolution = function(pos,w,h)
 end
 
 digipherals.api.graphics_card.set_pixel = function(pos,x, y, colorindex)
-    print(colorindex)
     digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
@@ -53,7 +52,6 @@ end
 
 digipherals.api.graphics_card.get_pixel = function(pos,x, y)
 
-    print(colorindex)
     digipherals.helpers.check_meta(pos)
     
     local meta = minetest.get_meta(pos)
