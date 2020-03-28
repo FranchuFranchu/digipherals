@@ -31,6 +31,9 @@ end
 digipherals.api.graphics_card.set_pixel = function(pos,x, y, colorindex)
     digipherals.helpers.check_meta(pos)
     
+    if type(x) ~= "number" or type(y) ~= "number" or type(colorindex) ~= "number" then
+        return {"ERR", "Wrong type"}
+    end
     local meta = minetest.get_meta(pos)
     local tmp = minetest.deserialize(meta:get_string("digipherals"))
     

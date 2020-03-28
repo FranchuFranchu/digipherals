@@ -2,8 +2,30 @@ digipherals.helpers.screen = {}
 
 digipherals.helpers.screen.pointer_action = function(pos, x, y, extra_data)
     digipherals.helpers.send_interrupt(pos, {x, y, extra_data})
-    
+    local origin_pos = pos
+    local traversed = {pos}
+    function _test_graphics_card(pos)
+        traversed[#traversed+1] = pos
+        if minetest.get_node(pos).name == "digipherals:graphics_card" then
+            digipherals.helpers.graphics_card.pointer_action(pos, origin_pos, x, y, extra_data)
+        elseif digipherals.helpers.screen.is_screen(pos) then
+            for k,v in pairs({{x=1,y=0,z=0},{x=-1,y=0,z=0},{x=0,y=1,z=0},{x=0,y=-1,z=0},{x=0,y=0,z=1},{x=0,y=0,z=-1}}) do
+                local v = vector.add(v, pos)
+                local found = false
+                for k2, v2 in pairs(traversed) do
+                    if vector.equals(v2, v) then
+                        found = true
+                        break
+                    end
+                end
+                if not found then
+                    _test_graphics_card(v)
+                end
+            end
+        end
+    end
 
+    _test_graphics_card(pos)
 end
 
 digipherals.helpers.screen.is_screen = function(pos)     

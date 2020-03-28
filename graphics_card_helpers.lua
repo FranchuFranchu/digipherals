@@ -1,5 +1,37 @@
 digipherals.helpers.graphics_card = {}
 
+digipherals.helpers.graphics_card.pointer_action = function(pos, screen_pos, x, y, extra_data)
+    local topleft = digipherals.helpers.graphics_card.get_top_left_screen(pos)
+    local raw_offset = vector.subtract(screen_pos, topleft)
+    local offset_x = vector.new(raw_offset)
+    local offset_y = vector.new(raw_offset)
+
+
+
+    local relative_left, relative_up = digipherals.helpers.graphics_card.get_relative_vectors(pos)
+    local relative_down = vector.subtract(vector.new(), relative_up)
+    local relative_right = vector.subtract(vector.new(), relative_left)
+
+    for k,v in pairs(relative_down) do
+        offset_y[k] = offset_y[k] * v
+    end
+
+    for k,v in pairs(relative_right) do
+        offset_x[k] = offset_x[k] * v
+    end
+
+    local offset = vector.add(offset_x, offset_y)
+    local ioffset_x = offset.x or offset.z
+    local ioffset_y = offset.y
+
+    local res = digipherals.helpers.graphics_card.get_individual_resolution(pos)
+    ioffset_x = ioffset_x * res.x + x
+    ioffset_y = ioffset_y * res.y + y
+    digipherals.helpers.send_interrupt(pos, {ioffset_x, ioffset_y, extra_data})
+
+
+end
+
 digipherals.helpers.graphics_card.is_screen = function(pos)     
 
     digipherals.helpers.check_meta(pos)
